@@ -61,17 +61,17 @@ buttonsUI.transfer.addEventListener("click", function (e) {
   inputsUI.transferAmount.value = inputsUI.transferTo.value = "";
 
   if (!currentAccount) console.log("No current account");
+  if (!receiverAcc) console.log("No such user");
 
   if (
     currentAccount &&
     amount > 0 &&
     receiverAcc &&
     (currentAccount.balance ?? 0) >= amount &&
-    receiverAcc.username !== currentAccount?.username
+    receiverAcc.username !== currentAccount.username
   ) {
     // Doing the transfer
     currentAccount.movements.push(-amount);
-    console.log(currentAccount.movements);
     receiverAcc.movements.push(amount);
 
     // Add transfer date
@@ -85,4 +85,34 @@ buttonsUI.transfer.addEventListener("click", function (e) {
     // clearInterval(timer);
     // timer = startLogOutTimer();
   }
+});
+
+// Request a loan
+buttonsUI.loan.addEventListener("click", function (e) {
+  e.preventDefault();
+
+  const amount = Math.floor(+inputsUI.loanAmount.value);
+
+  if (
+    amount > 0 &&
+    currentAccount?.movements.some((mov) => mov >= amount * 0.1)
+  ) {
+    setTimeout(() => {
+      if (currentAccount) {
+        // Add movement
+        currentAccount.movements.push(amount);
+
+        // Add loan date
+        currentAccount.movementsDates.push(new Date().toISOString());
+
+        // Update UI
+        updateUI(currentAccount);
+
+        // Reset timer
+        // clearInterval(timer);
+        // timer = startLogOutTimer();
+      }
+    }, 3000);
+  }
+  inputsUI.loanAmount.value = "";
 });
