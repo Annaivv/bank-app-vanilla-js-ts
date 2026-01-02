@@ -1,6 +1,7 @@
 export const labelsUI = {
   welcome: document.querySelector<HTMLParagraphElement>(".welcome")!,
   date: document.querySelector<HTMLParagraphElement>(".date")!,
+  balance: document.querySelector<HTMLParagraphElement>(".balance__value")!,
   sumIn: document.querySelector<HTMLParagraphElement>(".summary__value--in")!,
   sumOut: document.querySelector<HTMLParagraphElement>(".summary__value--out")!,
   sumInterest: document.querySelector<HTMLParagraphElement>(
