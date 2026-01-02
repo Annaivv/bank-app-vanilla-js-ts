@@ -1,4 +1,4 @@
-import { updateUI } from "./components/render";
+import { displayMovements, updateUI } from "./components/render";
 import {
   buttonsUI,
   containersUI,
@@ -141,4 +141,16 @@ buttonsUI.close.addEventListener("click", function (e) {
   }
 
   inputsUI.closeUsername.value = inputsUI.closePin.value = "";
+});
+
+// Sort transactions
+let sorted = false;
+buttonsUI.sort.addEventListener("click", function (e) {
+  e.preventDefault();
+  if (currentAccount) displayMovements(currentAccount, !sorted);
+  sorted = !sorted;
+
+  // Reset timer
+  // clearInterval(timer);
+  // timer = startLogOutTimer();
 });
