@@ -7,4 +7,5 @@ export interface Account {
   movementsDates: string[];
   currency: string;
   locale: string;
+  balance?: number;
 }
