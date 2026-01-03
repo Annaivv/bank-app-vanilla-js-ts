@@ -25,7 +25,7 @@ export const formatCurrency = (
   );
 };
 
-const createUsernames = function (accs: Account[]) {
+const createUsernames = (accs: Account[]) => {
   accs.forEach(function (acc) {
     acc.username = acc.owner
       .toLowerCase()
@@ -35,3 +35,10 @@ const createUsernames = function (accs: Account[]) {
   });
 };
 createUsernames(accounts);
+
+export const formatTime = (totalSeconds: number): string => {
+  const minutes = String(Math.trunc(totalSeconds / 60)).padStart(2, "0");
+  const seconds = String(totalSeconds % 60).padStart(2, "0");
+
+  return `${minutes}:${seconds}`;
+};

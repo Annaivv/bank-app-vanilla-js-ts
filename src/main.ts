@@ -1,4 +1,8 @@
-import { displayMovements, updateUI } from "./components/render";
+import {
+  displayMovements,
+  updateTimerLabel,
+  updateUI,
+} from "./components/render";
 import {
   buttonsUI,
   containersUI,
@@ -9,7 +13,26 @@ import { accounts } from "./data/accounts";
 import type { Account } from "./types";
 
 let currentAccount: Account | undefined;
-// let timer: number;
+let logoutTimer: number | undefined;
+
+// Logout timer
+export const handleTimer = (): void => {
+  if (logoutTimer) clearInterval(logoutTimer);
+
+  let time = 300;
+  updateTimerLabel(time);
+
+  logoutTimer = setInterval(() => {
+    time--;
+    updateTimerLabel(time);
+
+    if (time === 0) {
+      clearInterval(logoutTimer);
+      labelsUI.welcome.textContent = "Log in to get started";
+      containersUI.app.classList.remove("app--visible");
+    }
+  }, 1000);
+};
 
 // Log in
 buttonsUI.login.addEventListener("click", function (e) {
@@ -42,9 +65,8 @@ buttonsUI.login.addEventListener("click", function (e) {
     inputsUI.loginUsername.value = inputsUI.loginPin.value = "";
     inputsUI.loginPin.blur();
 
-    // // Start logout timer
-    // if (timer) clearInterval(timer);
-    // timer = startLogOutTimer();
+    // Start logout timer
+    handleTimer();
 
     // Update UI
     updateUI(currentAccount);
@@ -82,8 +104,7 @@ buttonsUI.transfer.addEventListener("click", function (e) {
     updateUI(currentAccount);
 
     // Reset timer
-    // clearInterval(timer);
-    // timer = startLogOutTimer();
+    handleTimer();
   }
 });
 
@@ -109,8 +130,7 @@ buttonsUI.loan.addEventListener("click", function (e) {
         updateUI(currentAccount);
 
         // Reset timer
-        // clearInterval(timer);
-        // timer = startLogOutTimer();
+        handleTimer();
       }
     }, 3000);
   }
@@ -151,6 +171,5 @@ buttonsUI.sort.addEventListener("click", function (e) {
   sorted = !sorted;
 
   // Reset timer
-  // clearInterval(timer);
-  // timer = startLogOutTimer();
+  handleTimer();
 });

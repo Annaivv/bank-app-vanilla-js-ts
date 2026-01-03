@@ -1,6 +1,6 @@
 import { containersUI, labelsUI } from "../constants/selectors";
 import type { Account } from "../types";
-import { calcDaysPassed, formatCurrency } from "../utils/helpers";
+import { calcDaysPassed, formatCurrency, formatTime } from "../utils/helpers";
 
 export const displayMovements = function (acc: Account, sort = false): void {
   containersUI.movements.innerHTML = "";
@@ -75,6 +75,10 @@ const calcDisplaySummary = function (acc: Account): void {
     acc.locale,
     acc.currency
   );
+};
+
+export const updateTimerLabel = (time: number) => {
+  labelsUI.timer.textContent = formatTime(time);
 };
 
 export const updateUI = function (acc: Account): void {
