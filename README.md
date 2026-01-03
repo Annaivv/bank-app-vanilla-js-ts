@@ -1,4 +1,4 @@
-🏦 Example Bank Application
+## 🏦 Example Bank Application
 
 This project is a vanilla JavaScript + TypeScript banking application that simulates basic operations on a user’s bank account.
 
