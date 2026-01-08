@@ -9,11 +9,12 @@ import {
   inputsUI,
   labelsUI,
 } from "./constants/selectors";
-import { accounts } from "./data/accounts";
+import { getAccountsData, setAccountsData } from "./services/storage";
 import type { Account } from "./types";
 
 let currentAccount: Account | undefined;
 let logoutTimer: number | undefined;
+const accounts: Account[] = getAccountsData();
 
 // Logout timer
 export const handleTimer = (): void => {
@@ -103,6 +104,9 @@ buttonsUI.transfer.addEventListener("click", function (e) {
     // Update UI
     updateUI(currentAccount);
 
+    // Save data to storage
+    setAccountsData(accounts);
+
     // Reset timer
     handleTimer();
   }
@@ -128,6 +132,9 @@ buttonsUI.loan.addEventListener("click", function (e) {
 
         // Update UI
         updateUI(currentAccount);
+
+        // Save data to storage
+        setAccountsData(accounts);
 
         // Reset timer
         handleTimer();
