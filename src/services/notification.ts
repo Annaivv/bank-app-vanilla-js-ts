@@ -1,4 +1,25 @@
 type ToastType = "success" | "warning" | "info" | "error";
+type SuccessAction = "login" | "transfer" | "loan" | "closeAcc";
+
+interface SuccessNotificationData {
+  name?: string;
+  amount?: number;
+  currency?: string;
+}
+
+export function handleSuccess(
+  action: SuccessAction,
+  data?: SuccessNotificationData
+): void {
+  const messages: Record<SuccessAction, string> = {
+    login: `Welcome back, ${data?.name}`,
+    loan: `Your loan in the amount of ${data?.amount} ${data?.currency} was approved`,
+    transfer: `You successfully transferred ${data?.amount} ${data?.currency} to ${data?.name}`,
+    closeAcc: "Your account is now closed",
+  };
+
+  showToast(messages[action], "success");
+}
 
 function getOrCreateContainer(): HTMLDivElement {
   let container = document.querySelector(".toast__container") as HTMLDivElement;

@@ -9,7 +9,7 @@ import {
   inputsUI,
   labelsUI,
 } from "./constants/selectors";
-import { showToast } from "./services/notification";
+import { handleSuccess, showToast } from "./services/notification";
 import { getAccountsData, setAccountsData } from "./services/storage";
 import type { Account } from "./types";
 
@@ -45,11 +45,10 @@ buttonsUI.login.addEventListener("click", function (e) {
 
   if (currentAccount?.pin === +inputsUI.loginPin.value) {
     // Display UI and message
-    const welcomeMessage = `Welcome back, ${
-      currentAccount.owner.split(" ")[0]
-    }`;
-    labelsUI.welcome.textContent = welcomeMessage;
-    showToast(welcomeMessage, "success");
+    const firstName = currentAccount.owner.split(" ")[0];
+
+    labelsUI.welcome.textContent = `Welcome back, ${firstName}`;
+    handleSuccess("login", { name: firstName });
     containersUI.app.classList.add("app--visible");
 
     const timeOptions: Intl.DateTimeFormatOptions = {
@@ -107,6 +106,13 @@ buttonsUI.transfer.addEventListener("click", function (e) {
     // Update UI
     updateUI(currentAccount);
 
+    // Show toast
+    handleSuccess("transfer", {
+      name: receiverAcc.owner,
+      amount,
+      currency: currentAccount.currency,
+    });
+
     // Save data to storage
     setAccountsData(accounts);
 
@@ -136,6 +142,9 @@ buttonsUI.loan.addEventListener("click", function (e) {
         // Update UI
         updateUI(currentAccount);
 
+        // Show toast
+        handleSuccess("loan", { amount, currency: currentAccount.currency });
+
         // Save data to storage
         setAccountsData(accounts);
 
@@ -164,6 +173,9 @@ buttonsUI.close.addEventListener("click", function (e) {
 
     // Delete account
     accounts.splice(index, 1);
+
+    // Show toast
+    handleSuccess("closeAcc");
 
     // Hide UI
     containersUI.app.classList.remove("app--visible");
