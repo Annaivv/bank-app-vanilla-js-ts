@@ -307,7 +307,12 @@ h2 {
 }
 
 .toast {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
   padding: 12px 36px;
+  min-width: 250px;
   border-radius: 8px;
   color: #fff;
   font-size: 1.5rem;
@@ -333,6 +338,22 @@ h2 {
 
 .toast--exit {
   animation: slideOut 0.3s ease-in forwards;
+}
+
+.toast__close {
+  background: none;
+  border: none;
+  color: inherit;
+  font-size: 24px;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0;
+  opacity: 0.7;
+  transition: opacity 0.2s;
+}
+
+.toast__close:hover {
+  opacity: 1;
 }
 
 @keyframes slideIn {

@@ -16,7 +16,10 @@ export function showToast(message: string, type: ToastType, duration = 3000) {
   const container = getOrCreateContainer();
   const toast = document.createElement("div");
   toast.classList.add("toast", `toast--${type}`);
-  toast.textContent = message;
+  toast.innerHTML = `
+  <span class="toast__message">${message}</span>
+  <button type="button" class="toast__close">&times;</button>
+`;
   container.appendChild(toast);
 
   const handleClose = () => {
@@ -30,6 +33,14 @@ export function showToast(message: string, type: ToastType, duration = 3000) {
       { once: true }
     );
   };
+
+  const closeIcon = document.querySelector(
+    ".toast__close"
+  ) as HTMLButtonElement;
+
+  if (closeIcon) {
+    closeIcon.addEventListener("click", handleClose);
+  }
 
   setTimeout(handleClose, duration);
 }
