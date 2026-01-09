@@ -9,6 +9,7 @@ import {
   inputsUI,
   labelsUI,
 } from "./constants/selectors";
+import { showToast } from "./services/notification";
 import { getAccountsData, setAccountsData } from "./services/storage";
 import type { Account } from "./types";
 
@@ -44,9 +45,11 @@ buttonsUI.login.addEventListener("click", function (e) {
 
   if (currentAccount?.pin === +inputsUI.loginPin.value) {
     // Display UI and message
-    labelsUI.welcome.textContent = `Welcome back, ${
+    const welcomeMessage = `Welcome back, ${
       currentAccount.owner.split(" ")[0]
     }`;
+    labelsUI.welcome.textContent = welcomeMessage;
+    showToast(welcomeMessage, "success");
     containersUI.app.classList.add("app--visible");
 
     const timeOptions: Intl.DateTimeFormatOptions = {
