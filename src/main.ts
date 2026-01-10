@@ -204,6 +204,9 @@ buttonsUI.sort.addEventListener("click", function (e) {
   if (currentAccount) displayMovements(currentAccount, !sorted);
   sorted = !sorted;
 
+  // Show notification when sorted
+  if (sorted) showToast("Movements sorted by amount", "info");
+
   // Reset timer
   handleTimer();
 });
