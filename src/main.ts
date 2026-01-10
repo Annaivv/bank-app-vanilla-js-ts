@@ -9,7 +9,11 @@ import {
   inputsUI,
   labelsUI,
 } from "./constants/selectors";
-import { handleSuccess, showToast } from "./services/notification";
+import {
+  handleSuccess,
+  handleTransferError,
+  showToast,
+} from "./services/notification";
 import { getAccountsData, setAccountsData } from "./services/storage";
 import type { Account } from "./types";
 
@@ -83,42 +87,48 @@ buttonsUI.transfer.addEventListener("click", function (e) {
   const receiverAcc = accounts.find(
     (acc) => acc.username === inputsUI.transferTo.value
   );
+
   inputsUI.transferAmount.value = inputsUI.transferTo.value = "";
 
-  if (!currentAccount) console.log("No current account");
-  if (!receiverAcc) console.log("No such user");
-
+  if (!currentAccount) return;
   if (
-    currentAccount &&
-    amount > 0 &&
-    receiverAcc &&
-    (currentAccount.balance ?? 0) >= amount &&
-    receiverAcc.username !== currentAccount.username
+    !receiverAcc ||
+    amount < 0 ||
+    (currentAccount.balance ?? 0) <= amount ||
+    receiverAcc.username === currentAccount.username
   ) {
-    // Doing the transfer
-    currentAccount.movements.push(-amount);
-    receiverAcc.movements.push(amount);
-
-    // Add transfer date
-    currentAccount.movementsDates.push(new Date().toISOString());
-    receiverAcc.movementsDates.push(new Date().toISOString());
-
-    // Update UI
-    updateUI(currentAccount);
-
-    // Show toast
-    handleSuccess("transfer", {
-      name: receiverAcc.owner,
-      amount,
-      currency: currentAccount.currency,
+    handleTransferError({
+      totalSum: currentAccount.balance,
+      userTo: receiverAcc?.username,
+      currentUser: currentAccount.username,
+      transferAmount: amount,
     });
-
-    // Save data to storage
-    setAccountsData(accounts);
-
-    // Reset timer
-    handleTimer();
+    return;
   }
+
+  // Completing transfer
+  currentAccount.movements.push(-amount);
+  receiverAcc.movements.push(amount);
+
+  // Add transfer date
+  currentAccount.movementsDates.push(new Date().toISOString());
+  receiverAcc.movementsDates.push(new Date().toISOString());
+
+  // Update UI
+  updateUI(currentAccount);
+
+  // Show toast
+  handleSuccess("transfer", {
+    name: receiverAcc?.owner,
+    amount,
+    currency: currentAccount.currency,
+  });
+
+  // Save data to storage
+  setAccountsData(accounts);
+
+  // Reset timer
+  handleTimer();
 });
 
 // Request a loan
