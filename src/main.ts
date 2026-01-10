@@ -137,10 +137,10 @@ buttonsUI.loan.addEventListener("click", function (e) {
 
   const amount = Math.floor(+inputsUI.loanAmount.value);
 
-  if (
-    amount > 0 &&
-    currentAccount?.movements.some((mov) => mov >= amount * 0.1)
-  ) {
+  if (amount < 0)
+    return showToast("Loan amount value should be more than 0", "error");
+
+  if (currentAccount?.movements.some((mov) => mov >= amount * 0.1)) {
     setTimeout(() => {
       if (currentAccount) {
         // Add movement
