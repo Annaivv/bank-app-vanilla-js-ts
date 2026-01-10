@@ -25,17 +25,23 @@ const accounts: Account[] = getAccountsData();
 export const handleTimer = (): void => {
   if (logoutTimer) clearInterval(logoutTimer);
 
-  let time = 300;
+  let time = 20;
   updateTimerLabel(time);
 
   logoutTimer = setInterval(() => {
     time--;
     updateTimerLabel(time);
 
+    if (time <= 10 && time > 0)
+      showToast(`You will be logged out in ${time} seconds`, "warning", 10000);
+
     if (time === 0) {
       clearInterval(logoutTimer);
       labelsUI.welcome.textContent = "Log in to get started";
       containersUI.app.classList.remove("app--visible");
+      currentAccount = undefined;
+
+      showToast("Session expired. Please log in again.", "info");
     }
   }, 1000);
 };

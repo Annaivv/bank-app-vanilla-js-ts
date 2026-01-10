@@ -68,6 +68,13 @@ function getOrCreateContainer(): HTMLDivElement {
 }
 
 export function showToast(message: string, type: ToastType, duration = 3000) {
+  let warningToast = document.querySelector(".toast--warning") as HTMLElement;
+
+  if (type === "warning" && warningToast) {
+    warningToast.textContent = message;
+    return;
+  }
+
   const container = getOrCreateContainer();
   const toast = document.createElement("div");
   toast.classList.add("toast", `toast--${type}`);
