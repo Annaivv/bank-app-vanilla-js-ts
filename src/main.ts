@@ -170,27 +170,29 @@ buttonsUI.loan.addEventListener("click", function (e) {
 buttonsUI.close.addEventListener("click", function (e) {
   e.preventDefault();
 
-  if (!currentAccount) console.log("No current account");
+  // Error checks
+  if (!currentAccount) return;
 
-  if (
-    currentAccount &&
-    inputsUI.closeUsername.value === currentAccount.username &&
-    +inputsUI.closePin.value === currentAccount.pin
-  ) {
-    const index = accounts.findIndex(
-      (acc) => acc.username === currentAccount?.username
-    );
+  if (inputsUI.closeUsername.value !== currentAccount.username)
+    return showToast("Invalid user initials", "error");
 
-    // Delete account
-    accounts.splice(index, 1);
+  if (+inputsUI.closePin.value !== currentAccount.pin)
+    return showToast("Invalid PIN", "error");
 
-    // Show toast
-    handleSuccess("closeAcc");
+  // SUCCESS case
+  const index = accounts.findIndex(
+    (acc) => acc.username === currentAccount?.username
+  );
 
-    // Hide UI
-    containersUI.app.classList.remove("app--visible");
-    labelsUI.welcome.textContent = "Log in to get started";
-  }
+  // Delete account
+  accounts.splice(index, 1);
+  setAccountsData(accounts);
+  currentAccount = undefined;
+  handleSuccess("closeAcc");
+
+  // Hide UI
+  containersUI.app.classList.remove("app--visible");
+  labelsUI.welcome.textContent = "Log in to get started";
 
   inputsUI.closeUsername.value = inputsUI.closePin.value = "";
 });

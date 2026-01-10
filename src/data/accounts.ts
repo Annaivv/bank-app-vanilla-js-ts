@@ -40,4 +40,24 @@ const account2: Account = {
   locale: "en-US",
 };
 
-export const accounts = [account1, account2];
+const account3: Account = {
+  owner: "Mary Doe",
+  movements: [200, 455.23, -306.5, 25000, -642.21, -133.9, 79.97, 1300],
+  interestRate: 1.4, // %
+  pin: 3333,
+
+  movementsDates: [
+    "2019-11-18T21:31:17.178Z",
+    "2019-12-23T07:42:02.383Z",
+    "2020-01-28T09:15:04.904Z",
+    "2020-04-01T10:17:24.185Z",
+    "2020-05-08T14:11:59.604Z",
+    "2020-05-27T17:01:17.194Z",
+    "2025-12-08T23:36:17.929Z",
+    "2025-12-11T08:51:36.790Z",
+  ],
+  currency: "GBP",
+  locale: "en-GB",
+};
+
+export const accounts = [account1, account2, account3];
