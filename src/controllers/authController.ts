@@ -16,7 +16,7 @@ export const handleSignupSubmit = (e: Event) => {
   const pin = inputsUI.signupPin.value.trim();
   const confirmPin = inputsUI.signupConfirmPin.value.trim();
 
-  if (!fullName.trim() || !pin.trim() || !confirmPin.trim()) {
+  if (!fullName || !pin || !confirmPin) {
     return showToast("Please fill all form fields!", "error");
   }
 
@@ -29,6 +29,10 @@ export const handleSignupSubmit = (e: Event) => {
     inputsUI.signupPin.value = inputsUI.signupConfirmPin.value = "";
     inputsUI.signupPin.focus();
     return;
+  }
+
+  if (pin.length !== 4 || confirmPin.length !== 4) {
+    return showToast("PIN should contain 4 digits", "error");
   }
 
   addUser(fullName, +pin);
