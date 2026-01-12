@@ -35,9 +35,11 @@ export const formatCurrency = (
   locale: string,
   currency: string
 ): string => {
-  return new Intl.NumberFormat(locale, { style: "currency", currency }).format(
-    value
-  );
+  return new Intl.NumberFormat(locale, {
+    style: "currency",
+    currency,
+    currencyDisplay: "code",
+  }).format(value);
 };
 
 export const createUsername = (accountOwner: string): string => {
