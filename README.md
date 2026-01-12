@@ -9,6 +9,7 @@ Users can:
 - Transfer money to other users
 - Request a loan
 - See automatically calculated summaries (incomes, expenses, total balance)
+- Get notifications on errors, warnings, successful actions and info messages
 
 The application supports localization for currency, dates, and time, adapting formatting based on the user’s locale.
 
@@ -21,3 +22,4 @@ I have significantly upgraded the codebase by:
 - **Modular Architecture**: Split the monolithic script into specialized modules.
 - **Modern Tooling**: Moved from a standard script tag to **Vite** for optimized bundling and deployment.
 - **Data persistence**: Account data are saved in localStorage after a loan request or a money transfer is performed. Account data are retrieved from localStorage if already stored, and from accounts array stored locally otherwise.
+- **Notifications**: A user gets a notification when an action was successful, on the error occured with a comprehensive error message, warnings and useful information.
