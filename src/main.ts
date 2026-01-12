@@ -1,4 +1,5 @@
 import {
+  closeSignupModal,
   displayMovements,
   openSignupModal,
   updateTimerLabel,
@@ -220,3 +221,12 @@ buttonsUI.sort.addEventListener("click", function (e) {
 
 // Open signup modal
 buttonsUI.signup?.addEventListener("click", openSignupModal);
+
+// Close signup modal on ESC
+document.addEventListener("keydown", function (e: KeyboardEvent) {
+  if (e.key === "Escape" && !containersUI.modal?.classList.contains("hidden"))
+    closeSignupModal();
+});
+
+// Close signup modal on overlay click
+containersUI.overlay?.addEventListener("click", closeSignupModal);

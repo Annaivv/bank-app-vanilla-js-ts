@@ -82,7 +82,7 @@ export const updateTimerLabel = (time: number) => {
   labelsUI.timer.textContent = formatTime(time);
 };
 
-export const openSignupModal = (e: MouseEvent) => {
+export const openSignupModal = (e: MouseEvent): void => {
   e.preventDefault();
 
   if (!containersUI.modal?.classList.contains("hidden")) {
@@ -92,6 +92,11 @@ export const openSignupModal = (e: MouseEvent) => {
 
   containersUI.modal?.classList.remove("hidden");
   containersUI.overlay?.classList.remove("hidden");
+};
+
+export const closeSignupModal = () => {
+  containersUI.modal?.classList.add("hidden");
+  containersUI.overlay?.classList.add("hidden");
 };
 
 export const updateUI = function (acc: Account): void {

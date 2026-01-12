@@ -28,6 +28,10 @@ a {
   text-decoration: none;
 }
 
+button {
+  border: none;
+}
+
 .hidden {
   visibility: hidden;
   opacity: 0;
