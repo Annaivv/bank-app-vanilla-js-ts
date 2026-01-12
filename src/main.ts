@@ -28,7 +28,7 @@ const accounts: Account[] = getAccountsData();
 export const handleTimer = (): void => {
   if (logoutTimer) clearInterval(logoutTimer);
 
-  let time = 20;
+  let time = 300;
   updateTimerLabel(time);
 
   logoutTimer = setInterval(() => {
@@ -55,6 +55,9 @@ buttonsUI.login.addEventListener("click", function (e) {
   currentAccount = accounts.find(
     (acc) => acc.username === inputsUI.loginUsername.value
   );
+
+  // console.log(accounts);
+  console.log(currentAccount);
 
   if (currentAccount?.pin === +inputsUI.loginPin.value) {
     // Display UI and message
