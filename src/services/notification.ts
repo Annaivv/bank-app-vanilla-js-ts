@@ -7,7 +7,6 @@ const ERROR_TEXTS = {
 
 type ToastType = "success" | "warning" | "info" | "error";
 type SuccessAction = "login" | "transfer" | "loan" | "closeAcc";
-type TransferErrAction = "selfTransfer" | "noUser" | "noMoney" | "negValue";
 
 interface SuccessNotificationData {
   name?: string;
