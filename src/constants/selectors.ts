@@ -13,6 +13,8 @@ export const labelsUI = {
 export const containersUI = {
   app: document.querySelector<HTMLElement>(".app")!,
   movements: document.querySelector<HTMLDivElement>(".movements")!,
+  modal: document.querySelector<HTMLDivElement>(".modal"),
+  overlay: document.querySelector<HTMLDivElement>(".overlay"),
 };
 
 export const buttonsUI = {
@@ -21,6 +23,7 @@ export const buttonsUI = {
   loan: document.querySelector<HTMLButtonElement>(".form__btn--loan")!,
   close: document.querySelector<HTMLButtonElement>(".form__btn--close")!,
   sort: document.querySelector<HTMLButtonElement>(".btn--sort")!,
+  signup: document.querySelector<HTMLButtonElement>(".signup__btn"),
 };
 
 export const inputsUI = {

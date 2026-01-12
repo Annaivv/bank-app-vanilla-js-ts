@@ -1,4 +1,5 @@
 import { containersUI, labelsUI } from "../constants/selectors";
+import { showToast } from "../services/notification";
 import type { Account } from "../types";
 import { calcDaysPassed, formatCurrency, formatTime } from "../utils/helpers";
 
@@ -79,6 +80,18 @@ const calcDisplaySummary = function (acc: Account): void {
 
 export const updateTimerLabel = (time: number) => {
   labelsUI.timer.textContent = formatTime(time);
+};
+
+export const openSignupModal = (e: MouseEvent) => {
+  e.preventDefault();
+
+  if (!containersUI.modal?.classList.contains("hidden")) {
+    showToast("Your modal is already open", "error");
+    return;
+  }
+
+  containersUI.modal?.classList.remove("hidden");
+  containersUI.overlay?.classList.remove("hidden");
 };
 
 export const updateUI = function (acc: Account): void {

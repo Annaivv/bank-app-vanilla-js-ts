@@ -24,9 +24,19 @@ nav {
   padding: 0 2rem;
 }
 
+a {
+  text-decoration: none;
+}
+
+.hidden {
+  visibility: hidden;
+  opacity: 0;
+}
+
 .welcome {
   font-size: 1.9rem;
   font-weight: 500;
+  min-width: 33%;
 }
 
 .logo {
@@ -75,6 +85,23 @@ nav {
 .btn--sort:focus {
   outline: none;
   color: #777;
+}
+
+.signup__btn {
+  border: none;
+  padding: 0.7rem 2rem;
+  font-size: 1.6rem;
+  font-family: inherit;
+  text-align: center;
+  border-radius: 10rem;
+  background-color: rgb(158, 158, 244);
+  color: whitesmoke;
+  cursor: pointer;
+}
+
+.signup__btn:hover,
+.signup__btn:focus {
+  background-color: rgb(122, 122, 211);
 }
 
 /* MAIN */
@@ -295,6 +322,34 @@ h2 {
   font-weight: 600;
 }
 
+/* Modal window */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  z-index: 100;
+  transition: all 0.5s;
+}
+
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  max-width: 50rem;
+  background-color: #f3f3f3;
+  padding: 5rem 6rem;
+  box-shadow: 0 4rem 6rem rgba(0, 0, 0, 0.3);
+  z-index: 1000;
+  transition: all 0.5s;
+  border-radius: 10px;
+}
+
+/* Toast notifications */
 .toast__container {
   position: fixed;
   top: 20px;

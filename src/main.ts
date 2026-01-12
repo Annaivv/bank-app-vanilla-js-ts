@@ -1,5 +1,6 @@
 import {
   displayMovements,
+  openSignupModal,
   updateTimerLabel,
   updateUI,
 } from "./components/render";
@@ -216,3 +217,6 @@ buttonsUI.sort.addEventListener("click", function (e) {
   // Reset timer
   handleTimer();
 });
+
+// Open signup modal
+buttonsUI.signup?.addEventListener("click", openSignupModal);
