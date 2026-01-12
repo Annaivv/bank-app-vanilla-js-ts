@@ -12,5 +12,8 @@
     "@types/node": "^25.0.3",
     "typescript": "~5.9.3",
     "vite": "^7.2.4"
+  },
+  "dependencies": {
+    "iso-country-currency": "^0.7.2"
   }
 }

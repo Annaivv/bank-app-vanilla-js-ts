@@ -1,3 +1,4 @@
+import isoCountryCurrency from "iso-country-currency";
 import { accounts } from "../data/accounts";
 
 export const locale = navigator.language;
@@ -14,6 +15,19 @@ export const calcDaysPassed = (
   if (daysPassed === 1) return "Yesterday";
   if (daysPassed <= 7) return `${daysPassed} days ago`;
   else return new Intl.DateTimeFormat(locale).format(date1);
+};
+
+export const getCurrencyFromLocale = (): string => {
+  try {
+    const region = new Intl.Locale(locale).maximize().region;
+
+    if (!region) return "USD";
+
+    return isoCountryCurrency.getParamByISO(region, "currency");
+  } catch (error) {
+    console.error(error);
+    return "USD";
+  }
 };
 
 export const formatCurrency = (

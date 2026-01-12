@@ -1,8 +1,14 @@
 import type { Account } from "../types";
-import { createUsername, locale } from "../utils/helpers";
+import {
+  createUsername,
+  getCurrencyFromLocale,
+  locale,
+} from "../utils/helpers";
 import { getAccountsData, setAccountsData } from "./storage";
 
 export function addUser(fullName: string, pin: number) {
+  const currency = getCurrencyFromLocale();
+
   const newUser: Account = {
     owner: fullName,
     username: createUsername(fullName),
@@ -10,7 +16,7 @@ export function addUser(fullName: string, pin: number) {
     interestRate: 1.2,
     pin,
     movementsDates: [],
-    currency: "USD",
+    currency,
     locale,
     balance: 0,
   };
@@ -18,5 +24,4 @@ export function addUser(fullName: string, pin: number) {
   const storedAccounts: Account[] = getAccountsData();
   storedAccounts.push(newUser);
   setAccountsData(storedAccounts);
-  console.log(newUser);
 }
