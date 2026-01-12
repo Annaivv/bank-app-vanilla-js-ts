@@ -41,4 +41,7 @@ export const inputsUI = {
   closeUsername:
     document.querySelector<HTMLInputElement>(".form__input--user")!,
   closePin: document.querySelector<HTMLInputElement>(".form__input--pin")!,
+  signupFirstInput: document.querySelector<HTMLInputElement>(
+    ".signup__firstInput"
+  ),
 };

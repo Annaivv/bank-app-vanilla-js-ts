@@ -120,7 +120,12 @@
     <div class="modal hidden">
       <form class="signup__form">
         <label for="username">Full name</label>
-        <input type="text" id="username" placeholder="Your name and surname" />
+        <input
+          type="text"
+          class="signup__firstInput"
+          id="username"
+          placeholder="Your name and surname"
+        />
         <label for="pin">PIN</label>
         <input
           type="password"
@@ -129,8 +134,13 @@
           placeholder="Enter 4 digits"
         />
         <label for="confirmPin">Confirm PIN</label>
-        <input type="number" id="confirmPin" placeholder="Repeat the PIN" />
-        <button>Register</button>
+        <input
+          type="password"
+          id="confirmPin"
+          maxlength="4"
+          placeholder="Repeat the PIN"
+        />
+        <button class="signup__btn">Register</button>
       </form>
     </div>
     <div class="overlay hidden"></div>

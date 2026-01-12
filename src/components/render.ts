@@ -1,4 +1,4 @@
-import { containersUI, labelsUI } from "../constants/selectors";
+import { containersUI, inputsUI, labelsUI } from "../constants/selectors";
 import { showToast } from "../services/notification";
 import type { Account } from "../types";
 import { calcDaysPassed, formatCurrency, formatTime } from "../utils/helpers";
@@ -92,6 +92,7 @@ export const openSignupModal = (e: MouseEvent): void => {
 
   containersUI.modal?.classList.remove("hidden");
   containersUI.overlay?.classList.remove("hidden");
+  setTimeout(() => inputsUI.signupFirstInput?.focus(), 100);
 };
 
 export const closeSignupModal = () => {

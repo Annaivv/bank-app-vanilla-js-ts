@@ -11,6 +11,7 @@ html {
 
 body {
   font-family: "Poppins", sans-serif;
+  font-size: 16px;
   color: #444;
   background-color: #f3f3f3;
   height: 100vh;
@@ -28,7 +29,8 @@ a {
   text-decoration: none;
 }
 
-button {
+button,
+input {
   border: none;
 }
 
@@ -351,6 +353,37 @@ h2 {
   z-index: 1000;
   transition: all 0.5s;
   border-radius: 10px;
+}
+
+/* Signup form */
+.signup__form {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  gap: 4px;
+}
+
+.signup__form label {
+  text-align: center;
+}
+
+.signup__form label:not(:first-child) {
+  margin-top: 4px;
+}
+
+.signup__form input {
+  padding: 8px;
+  border-radius: 8px;
+}
+
+.signup__form input:focus,
+.signup__form input:hover {
+  outline: none;
+  border: 1px solid rgb(122, 122, 211);
+}
+
+.signup__form input:last-of-type {
+  margin-bottom: 24px;
 }
 
 /* Toast notifications */
