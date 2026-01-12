@@ -25,16 +25,17 @@ export const formatCurrency = (
   );
 };
 
-const createUsernames = (accs: Account[]) => {
-  accs.forEach(function (acc) {
-    acc.username = acc.owner
-      .toLowerCase()
-      .split(" ")
-      .map((name) => name[0])
-      .join("");
-  });
+export const createUsername = (accountOwner: string): string => {
+  return accountOwner
+    .toLowerCase()
+    .split(" ")
+    .map((name) => name[0])
+    .join("");
 };
-createUsernames(accounts);
+
+accounts.forEach(
+  (account) => (account.username = createUsername(account.owner))
+);
 
 export const formatTime = (totalSeconds: number): string => {
   const minutes = String(Math.trunc(totalSeconds / 60)).padStart(2, "0");

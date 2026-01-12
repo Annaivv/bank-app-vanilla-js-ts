@@ -11,6 +11,7 @@ import {
   inputsUI,
   labelsUI,
 } from "./constants/selectors";
+import { handleSignupSubmit } from "./controllers/authController";
 import {
   handleSuccess,
   handleTransferError,
@@ -220,7 +221,7 @@ buttonsUI.sort.addEventListener("click", function (e) {
 });
 
 // Open signup modal
-buttonsUI.signup?.addEventListener("click", openSignupModal);
+buttonsUI.signupOpenForm?.addEventListener("click", openSignupModal);
 
 // Close signup modal on ESC
 document.addEventListener("keydown", function (e: KeyboardEvent) {
@@ -230,3 +231,6 @@ document.addEventListener("keydown", function (e: KeyboardEvent) {
 
 // Close signup modal on overlay click
 containersUI.overlay?.addEventListener("click", closeSignupModal);
+
+// Send signup form
+buttonsUI.signupSubmitForm?.addEventListener("click", handleSignupSubmit);

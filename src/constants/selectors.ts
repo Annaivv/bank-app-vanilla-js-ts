@@ -23,7 +23,11 @@ export const buttonsUI = {
   loan: document.querySelector<HTMLButtonElement>(".form__btn--loan")!,
   close: document.querySelector<HTMLButtonElement>(".form__btn--close")!,
   sort: document.querySelector<HTMLButtonElement>(".btn--sort")!,
-  signup: document.querySelector<HTMLButtonElement>(".signup__btn"),
+  signupOpenForm:
+    document.querySelector<HTMLButtonElement>(".signup__openForm"),
+  signupSubmitForm: document.querySelector<HTMLButtonElement>(
+    ".signup__submitForm"
+  ),
 };
 
 export const inputsUI = {
@@ -44,4 +48,7 @@ export const inputsUI = {
   signupFirstInput: document.querySelector<HTMLInputElement>(
     ".signup__firstInput"
   ),
+  signupUsername: document.querySelector<HTMLInputElement>("#username"),
+  signupPin: document.querySelector<HTMLInputElement>("#pin"),
+  signupConfirmPin: document.querySelector<HTMLInputElement>("#confirmPin"),
 };
