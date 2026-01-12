@@ -1,5 +1,6 @@
 import { accounts } from "../data/accounts";
-import type { Account } from "../types";
+
+export const locale = navigator.language;
 
 export const calcDaysPassed = (
   date1: Date,
