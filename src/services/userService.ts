@@ -12,10 +12,10 @@ export function addUser(fullName: string, pin: number) {
   const newUser: Account = {
     owner: fullName,
     username: createUsername(fullName),
-    movements: [],
+    movements: [5000],
     interestRate: 1.2,
     pin,
-    movementsDates: [],
+    movementsDates: [new Date().toISOString()],
     currency,
     locale,
     balance: 0,
