@@ -6,7 +6,7 @@ import {
 } from "../utils/helpers";
 import { getAccountsData, setAccountsData } from "./storage";
 
-export function addUser(fullName: string, pin: number) {
+export function addUser(fullName: string, pin: number): Account {
   const currency = getCurrencyFromLocale();
 
   const newUser: Account = {
@@ -24,4 +24,5 @@ export function addUser(fullName: string, pin: number) {
   const storedAccounts: Account[] = getAccountsData();
   storedAccounts.push(newUser);
   setAccountsData(storedAccounts);
+  return newUser;
 }
