@@ -1,9 +1,9 @@
 import {
   closeSignupModal,
-  // displayMovements,
+  displayMovements,
   openSignupModal,
   updateTimerLabel,
-  // updateUI,
+  updateUI,
 } from "./components/render";
 import {
   buttonsUI,
@@ -13,15 +13,15 @@ import {
 } from "./constants/selectors";
 import { handleLogin, handleSignupSubmit } from "./controllers/authController";
 import {
-  // handleSuccess,
-  // handleTransferError,
+  handleSuccess,
+  handleTransferError,
   showToast,
 } from "./services/notification";
-import { getCurrentAccount, setCurrentAccount } from "./services/state";
+import { setCurrentAccount } from "./services/state";
 import { getAccountsData, setAccountsData } from "./services/storage";
 import type { Account } from "./types";
 
-// let currentAccount: Account | undefined;
+let currentAccount: Account | undefined;
 let logoutTimer: number | undefined;
 const accounts: Account[] = getAccountsData();
 
@@ -54,135 +54,135 @@ export const handleTimer = (): void => {
 buttonsUI.login.addEventListener("click", handleLogin);
 
 // Transfer money to other user
-// buttonsUI.transfer.addEventListener("click", function (e) {
-//   e.preventDefault();
-//   const amount = +inputsUI.transferAmount.value;
-//   const receiverAcc = accounts.find(
-//     (acc) => acc.username === inputsUI.transferTo.value
-//   );
+buttonsUI.transfer.addEventListener("click", function (e) {
+  e.preventDefault();
+  const amount = +inputsUI.transferAmount.value;
+  const receiverAcc = accounts.find(
+    (acc) => acc.username === inputsUI.transferTo.value
+  );
 
-//   inputsUI.transferAmount.value = inputsUI.transferTo.value = "";
+  inputsUI.transferAmount.value = inputsUI.transferTo.value = "";
 
-//   if (!currentAccount) return;
-//   if (
-//     !receiverAcc ||
-//     amount < 0 ||
-//     (currentAccount.balance ?? 0) <= amount ||
-//     receiverAcc.username === currentAccount.username
-//   ) {
-//     handleTransferError({
-//       totalSum: currentAccount.balance,
-//       userTo: receiverAcc?.username,
-//       currentUser: currentAccount.username,
-//       transferAmount: amount,
-//     });
-//     return;
-//   }
+  if (!currentAccount) return;
+  if (
+    !receiverAcc ||
+    amount < 0 ||
+    (currentAccount.balance ?? 0) <= amount ||
+    receiverAcc.username === currentAccount.username
+  ) {
+    handleTransferError({
+      totalSum: currentAccount.balance,
+      userTo: receiverAcc?.username,
+      currentUser: currentAccount.username,
+      transferAmount: amount,
+    });
+    return;
+  }
 
-//   // Completing transfer
-//   currentAccount.movements.push(-amount);
-//   receiverAcc.movements.push(amount);
+  // Completing transfer
+  currentAccount.movements.push(-amount);
+  receiverAcc.movements.push(amount);
 
-//   // Add transfer date
-//   currentAccount.movementsDates.push(new Date().toISOString());
-//   receiverAcc.movementsDates.push(new Date().toISOString());
+  // Add transfer date
+  currentAccount.movementsDates.push(new Date().toISOString());
+  receiverAcc.movementsDates.push(new Date().toISOString());
 
-//   // Update UI
-//   updateUI(currentAccount);
+  // Update UI
+  updateUI(currentAccount);
 
-//   // Show toast
-//   handleSuccess("transfer", {
-//     name: receiverAcc?.owner,
-//     amount,
-//     currency: currentAccount.currency,
-//   });
+  // Show toast
+  handleSuccess("transfer", {
+    name: receiverAcc?.owner,
+    amount,
+    currency: currentAccount.currency,
+  });
 
-//   // Save data to storage
-//   setAccountsData(accounts);
+  // Save data to storage
+  setAccountsData(accounts);
 
-//   // Reset timer
-//   handleTimer();
-// });
+  // Reset timer
+  handleTimer();
+});
 
 // Request a loan
-// buttonsUI.loan.addEventListener("click", function (e) {
-//   e.preventDefault();
+buttonsUI.loan.addEventListener("click", function (e) {
+  e.preventDefault();
 
-//   const amount = Math.floor(+inputsUI.loanAmount.value);
+  const amount = Math.floor(+inputsUI.loanAmount.value);
 
-//   if (amount < 0)
-//     return showToast("Loan amount value should be more than 0", "error");
+  if (amount < 0)
+    return showToast("Loan amount value should be more than 0", "error");
 
-//   if (currentAccount?.movements.some((mov) => mov >= amount * 0.1)) {
-//     setTimeout(() => {
-//       if (currentAccount) {
-//         // Add movement
-//         currentAccount.movements.push(amount);
+  if (currentAccount?.movements.some((mov) => mov >= amount * 0.1)) {
+    setTimeout(() => {
+      if (currentAccount) {
+        // Add movement
+        currentAccount.movements.push(amount);
 
-//         // Add loan date
-//         currentAccount.movementsDates.push(new Date().toISOString());
+        // Add loan date
+        currentAccount.movementsDates.push(new Date().toISOString());
 
-//         // Update UI
-//         updateUI(currentAccount);
+        // Update UI
+        updateUI(currentAccount);
 
-//         // Show toast
-//         handleSuccess("loan", { amount, currency: currentAccount.currency });
+        // Show toast
+        handleSuccess("loan", { amount, currency: currentAccount.currency });
 
-//         // Save data to storage
-//         setAccountsData(accounts);
+        // Save data to storage
+        setAccountsData(accounts);
 
-//         // Reset timer
-//         handleTimer();
-//       }
-//     }, 3000);
-//   }
-//   inputsUI.loanAmount.value = "";
-// });
+        // Reset timer
+        handleTimer();
+      }
+    }, 3000);
+  }
+  inputsUI.loanAmount.value = "";
+});
 
 // Close an account
-// buttonsUI.close.addEventListener("click", function (e) {
-//   e.preventDefault();
+buttonsUI.close.addEventListener("click", function (e) {
+  e.preventDefault();
 
-//   // Error checks
-//   if (!currentAccount) return;
+  // Error checks
+  if (!currentAccount) return;
 
-//   if (inputsUI.closeUsername.value !== currentAccount.username)
-//     return showToast("Invalid user initials", "error");
+  if (inputsUI.closeUsername.value !== currentAccount.username)
+    return showToast("Invalid user initials", "error");
 
-//   if (+inputsUI.closePin.value !== currentAccount.pin)
-//     return showToast("Invalid PIN", "error");
+  if (+inputsUI.closePin.value !== currentAccount.pin)
+    return showToast("Invalid PIN", "error");
 
-//   // SUCCESS case
-//   const index = accounts.findIndex(
-//     (acc) => acc.username === currentAccount?.username
-//   );
+  // SUCCESS case
+  const index = accounts.findIndex(
+    (acc) => acc.username === currentAccount?.username
+  );
 
-//   // Delete account
-//   accounts.splice(index, 1);
-//   setAccountsData(accounts);
-//   currentAccount = undefined;
-//   handleSuccess("closeAcc");
+  // Delete account
+  accounts.splice(index, 1);
+  setAccountsData(accounts);
+  currentAccount = undefined;
+  handleSuccess("closeAcc");
 
-//   // Hide UI
-//   containersUI.app.classList.remove("app--visible");
-//   labelsUI.welcome.textContent = "Log in to get started";
+  // Hide UI
+  containersUI.app.classList.remove("app--visible");
+  labelsUI.welcome.textContent = "Log in to get started";
 
-//   inputsUI.closeUsername.value = inputsUI.closePin.value = "";
-// });
+  inputsUI.closeUsername.value = inputsUI.closePin.value = "";
+});
 
 // Sort transactions
-// let sorted = false;
-// buttonsUI.sort.addEventListener("click", function (e) {
-//   e.preventDefault();
-//   if (currentAccount) displayMovements(currentAccount, !sorted);
-//   sorted = !sorted;
+let sorted = false;
+buttonsUI.sort.addEventListener("click", function (e) {
+  e.preventDefault();
+  if (currentAccount) displayMovements(currentAccount, !sorted);
+  sorted = !sorted;
 
-//   // Show notification when sorted
-//   if (sorted) showToast("Movements sorted by amount", "info");
+  // Show notification when sorted
+  if (sorted) showToast("Movements sorted by amount", "info");
 
-//   // Reset timer
-//   handleTimer();
-// });
+  // Reset timer
+  handleTimer();
+});
 
 // Open signup modal
 buttonsUI.signupOpenForm?.addEventListener("click", openSignupModal);
