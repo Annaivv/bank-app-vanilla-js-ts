@@ -1,5 +1,10 @@
 import { closeSignupModal, updateUI } from "../components/render";
-import { containersUI, inputsUI, labelsUI } from "../constants/selectors";
+import {
+  buttonsUI,
+  containersUI,
+  inputsUI,
+  labelsUI,
+} from "../constants/selectors";
 import { handleTimer } from "../main";
 import { handleSuccess, showToast } from "../services/notification";
 import {
@@ -56,7 +61,7 @@ export function handleSignupSubmit(e: Event) {
       "error"
     );
 
-  const curAcc = addUser(fullName, +pin);
+  const curAcc: Account = addUser(fullName, +pin);
   setCurrentAccount(curAcc);
 
   inputsUI.signupUsername.value =
@@ -72,7 +77,7 @@ export function handleSignupSubmit(e: Event) {
 export function handleLogin(e: Event) {
   e.preventDefault();
   // Get current account
-  const currentAccount = isSignup
+  const currentAccount: Account | undefined = isSignup
     ? getCurrentAccount()
     : accounts.find(
         (account) =>
@@ -88,7 +93,8 @@ export function handleLogin(e: Event) {
   const firstName = currentAccount.owner.split(" ")[0];
   labelsUI.welcome.textContent = `Welcome back, ${firstName}`;
   handleSuccess("login", { name: firstName });
-  containersUI.app.classList.add("app--visible");
+  containersUI.app.classList.add("visible");
+  if (buttonsUI.signupOpenForm) buttonsUI.signupOpenForm.style.display = "none";
 
   const timeOptions: Intl.DateTimeFormatOptions = {
     hour: "numeric",

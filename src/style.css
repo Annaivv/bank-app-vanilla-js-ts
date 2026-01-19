@@ -125,7 +125,7 @@ input {
   transition: all 1s;
 }
 
-.app--visible {
+.visible {
   opacity: 1;
   pointer-events: auto;
 }
