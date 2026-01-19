@@ -18,12 +18,12 @@ import {
   showToast,
 } from "./services/notification";
 import { getCurrentAccount, setCurrentAccount } from "./services/state";
-// import { getAccountsData, setAccountsData } from "./services/storage";
-// import type { Account } from "./types";
+import { getAccountsData, setAccountsData } from "./services/storage";
+import type { Account } from "./types";
 
 // let currentAccount: Account | undefined;
 let logoutTimer: number | undefined;
-// const accounts: Account[] = getAccountsData();
+const accounts: Account[] = getAccountsData();
 
 // Logout timer
 export const handleTimer = (): void => {
@@ -51,17 +51,7 @@ export const handleTimer = (): void => {
 };
 
 // Log in
-buttonsUI.login.addEventListener("click", function (e) {
-  e.preventDefault();
-  const curAcc = getCurrentAccount();
-  if (curAcc?.pin === +inputsUI.loginPin.value) {
-    handleLogin();
-
-    // Clear input fields
-    inputsUI.loginUsername.value = inputsUI.loginPin.value = "";
-    inputsUI.loginPin.blur();
-  }
-});
+buttonsUI.login.addEventListener("click", handleLogin);
 
 // Transfer money to other user
 // buttonsUI.transfer.addEventListener("click", function (e) {

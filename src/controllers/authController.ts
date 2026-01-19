@@ -2,11 +2,20 @@ import { closeSignupModal, updateUI } from "../components/render";
 import { containersUI, inputsUI, labelsUI } from "../constants/selectors";
 import { handleTimer } from "../main";
 import { handleSuccess, showToast } from "../services/notification";
-import { getCurrentAccount, setCurrentAccount } from "../services/state";
+import {
+  accounts,
+  getCurrentAccount,
+  setCurrentAccount,
+} from "../services/state";
 import { addUser } from "../services/userService";
+import type { Account } from "../types";
+
+let isSignup: boolean = false;
 
 export function handleSignupSubmit(e: Event) {
   e.preventDefault();
+  isSignup = true;
+
   if (
     !inputsUI.signupUsername ||
     !inputsUI.signupPin ||
@@ -37,9 +46,18 @@ export function handleSignupSubmit(e: Event) {
     return showToast("PIN should contain 4 digits", "error");
   }
 
+  if (
+    accounts.some(
+      (account) => account.owner.toLowerCase() === fullName.toLowerCase()
+    )
+  )
+    return showToast(
+      "The user with this full name already exists, please provide another full name",
+      "error"
+    );
+
   const curAcc = addUser(fullName, +pin);
   setCurrentAccount(curAcc);
-  // console.log(curAcc);
 
   inputsUI.signupUsername.value =
     inputsUI.signupPin.value =
@@ -47,15 +65,24 @@ export function handleSignupSubmit(e: Event) {
       "";
 
   closeSignupModal();
-  handleLogin();
+  handleLogin(e);
 }
 
 // Login function
-export function handleLogin() {
+export function handleLogin(e: Event) {
+  e.preventDefault();
   // Get current account
-  const currentAccount = getCurrentAccount();
+  const currentAccount = isSignup
+    ? getCurrentAccount()
+    : accounts.find(
+        (account) =>
+          account.username === inputsUI.loginUsername.value.trim().toLowerCase()
+      );
 
   if (!currentAccount) return showToast("User does not exist", "error");
+
+  if (!isSignup && currentAccount.pin !== +inputsUI.loginPin.value)
+    return showToast("Wrong PIN provided", "error");
 
   // Display UI and message
   const firstName = currentAccount.owner.split(" ")[0];
@@ -80,46 +107,10 @@ export function handleLogin() {
   handleTimer();
   // Update UI
   updateUI(currentAccount);
+
+  if (!isSignup) {
+    // Clear input fields
+    inputsUI.loginUsername.value = inputsUI.loginPin.value = "";
+    inputsUI.loginPin.blur();
+  }
 }
-
-// function (e) {
-//   e.preventDefault();
-//   currentAccount = accounts.find(
-//     (acc) => acc.username === inputsUI.loginUsername.value
-//   );
-
-//   // console.log(accounts);
-//   console.log(currentAccount);
-
-//   if (currentAccount?.pin === +inputsUI.loginPin.value) {
-//     // Display UI and message
-//     const firstName = currentAccount.owner.split(" ")[0];
-
-//     labelsUI.welcome.textContent = `Welcome back, ${firstName}`;
-//     handleSuccess("login", { name: firstName });
-//     containersUI.app.classList.add("app--visible");
-
-//     const timeOptions: Intl.DateTimeFormatOptions = {
-//       hour: "numeric",
-//       minute: "numeric",
-//       day: "numeric",
-//       month: "numeric",
-//       year: "numeric",
-//     };
-
-//     labelsUI.date.textContent = new Intl.DateTimeFormat(
-//       currentAccount.locale,
-//       timeOptions
-//     ).format(new Date());
-
-//     // Clear input fields
-//     inputsUI.loginUsername.value = inputsUI.loginPin.value = "";
-//     inputsUI.loginPin.blur();
-
-//     // Start logout timer
-//     handleTimer();
-
-//     // Update UI
-//     updateUI(currentAccount);
-//   }
-// }
