@@ -19,7 +19,10 @@ import {
 } from "./services/notification";
 import { setCurrentAccount } from "./services/state";
 import { getAccountsData, setAccountsData } from "./services/storage";
-import { handleTransfer } from "./services/transactionService";
+import {
+  handleLoanRequest,
+  handleTransfer,
+} from "./services/transactionService";
 import type { Account } from "./types";
 
 let currentAccount: Account | undefined;
@@ -43,7 +46,7 @@ export const handleTimer = (): void => {
     if (time === 0) {
       clearInterval(logoutTimer);
       labelsUI.welcome.textContent = "Log in to get started";
-      containersUI.app.classList.remove("app--visible");
+      containersUI.app.classList.remove("visible");
       setCurrentAccount(undefined);
 
       showToast("Session expired. Please log in again.", "info");
@@ -66,36 +69,7 @@ buttonsUI.transfer.addEventListener("click", function (e) {
 // Request a loan
 buttonsUI.loan.addEventListener("click", function (e) {
   e.preventDefault();
-
-  const amount = Math.floor(+inputsUI.loanAmount.value);
-
-  if (amount < 0)
-    return showToast("Loan amount value should be more than 0", "error");
-
-  if (currentAccount?.movements.some((mov) => mov >= amount * 0.1)) {
-    setTimeout(() => {
-      if (currentAccount) {
-        // Add movement
-        currentAccount.movements.push(amount);
-
-        // Add loan date
-        currentAccount.movementsDates.push(new Date().toISOString());
-
-        // Update UI
-        updateUI(currentAccount);
-
-        // Show toast
-        handleSuccess("loan", { amount, currency: currentAccount.currency });
-
-        // Save data to storage
-        setAccountsData(accounts);
-
-        // Reset timer
-        handleTimer();
-      }
-    }, 3000);
-  }
-  inputsUI.loanAmount.value = "";
+  handleLoanRequest();
 });
 
 // Close an account
