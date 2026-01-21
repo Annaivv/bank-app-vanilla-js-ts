@@ -1,26 +1,26 @@
 import { updateUI } from "../components/render";
 import { inputsUI } from "../constants/selectors";
-import { handleTimer } from "../main";
+import { handleTimer } from "./timer";
 import type { Account } from "../types";
 import { handleSuccess, handleTransferError, showToast } from "./notification";
-import { accounts, getCurrentAccount, refreshAccounts } from "./state";
+import { accounts, getCurrentAccount, syncStateWithStorage } from "./state";
 import { setAccountsData } from "./storage";
 
 export function handleTransfer(): void {
   const currentAcc: Account | undefined = getCurrentAccount();
   const amount: number = +inputsUI.transferAmount.value;
+  const transferToValue = inputsUI.transferTo.value.trim();
   const receiverAcc: Account | undefined = accounts.find(
     (acc) => acc.username === inputsUI.transferTo.value
   );
 
-  inputsUI.transferAmount.value = inputsUI.transferTo.value = "";
+  if (!transferToValue || !amount || amount <= 0) return;
 
   if (!currentAcc) return;
 
   if (
     !receiverAcc ||
-    amount < 0 ||
-    (currentAcc.balance ?? 0) <= amount ||
+    (currentAcc.balance ?? 0) < amount ||
     receiverAcc.username === currentAcc.username
   ) {
     handleTransferError({
@@ -55,6 +55,8 @@ export function handleTransfer(): void {
 
   // Reset timer
   handleTimer();
+
+  inputsUI.transferAmount.value = inputsUI.transferTo.value = "";
 }
 
 export function handleLoanRequest() {
@@ -75,7 +77,7 @@ export function handleLoanRequest() {
 
       // Save data to storage
       setAccountsData(accounts);
-      refreshAccounts();
+      syncStateWithStorage();
 
       // Show toast
       handleSuccess("loan", { amount, currency: currentAcc.currency });

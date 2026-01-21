@@ -5,11 +5,11 @@ import {
   inputsUI,
   labelsUI,
 } from "../constants/selectors";
-import { handleTimer } from "../main";
+import { handleTimer } from "../services/timer";
 import { handleSuccess, showToast } from "../services/notification";
 import {
   accounts,
-  refreshAccounts,
+  syncStateWithStorage,
   setCurrentAccount,
 } from "../services/state";
 import { addUser } from "../services/userService";
@@ -62,7 +62,7 @@ export function handleSignupSubmit(e: Event) {
     );
 
   const newUser = addUser(fullName, +pin);
-  refreshAccounts();
+  syncStateWithStorage();
 
   inputsUI.signupUsername.value =
     inputsUI.signupPin.value =
