@@ -9,7 +9,6 @@ import { handleTimer } from "../main";
 import { handleSuccess, showToast } from "../services/notification";
 import {
   accounts,
-  getCurrentAccount,
   refreshAccounts,
   setCurrentAccount,
 } from "../services/state";

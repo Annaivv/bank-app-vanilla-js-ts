@@ -3,22 +3,12 @@ import {
   displayMovements,
   openSignupModal,
   updateTimerLabel,
-  updateUI,
 } from "./components/render";
-import {
-  buttonsUI,
-  containersUI,
-  inputsUI,
-  labelsUI,
-} from "./constants/selectors";
+import { buttonsUI, containersUI, labelsUI } from "./constants/selectors";
 import { handleLogin, handleSignupSubmit } from "./controllers/authController";
-import {
-  handleSuccess,
-  handleTransferError,
-  showToast,
-} from "./services/notification";
+import { handleAccountClose } from "./services/accountService";
+import { showToast } from "./services/notification";
 import { setCurrentAccount } from "./services/state";
-import { getAccountsData, setAccountsData } from "./services/storage";
 import {
   handleLoanRequest,
   handleTransfer,
@@ -27,7 +17,6 @@ import type { Account } from "./types";
 
 let currentAccount: Account | undefined;
 let logoutTimer: number | undefined;
-const accounts: Account[] = getAccountsData();
 
 // Logout timer
 export const handleTimer = (): void => {
@@ -75,32 +64,7 @@ buttonsUI.loan.addEventListener("click", function (e) {
 // Close an account
 buttonsUI.close.addEventListener("click", function (e) {
   e.preventDefault();
-
-  // Error checks
-  if (!currentAccount) return;
-
-  if (inputsUI.closeUsername.value !== currentAccount.username)
-    return showToast("Invalid user initials", "error");
-
-  if (+inputsUI.closePin.value !== currentAccount.pin)
-    return showToast("Invalid PIN", "error");
-
-  // SUCCESS case
-  const index = accounts.findIndex(
-    (acc) => acc.username === currentAccount?.username
-  );
-
-  // Delete account
-  accounts.splice(index, 1);
-  setAccountsData(accounts);
-  currentAccount = undefined;
-  handleSuccess("closeAcc");
-
-  // Hide UI
-  containersUI.app.classList.remove("app--visible");
-  labelsUI.welcome.textContent = "Log in to get started";
-
-  inputsUI.closeUsername.value = inputsUI.closePin.value = "";
+  handleAccountClose();
 });
 
 // Sort transactions
