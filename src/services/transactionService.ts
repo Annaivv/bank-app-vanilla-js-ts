@@ -1,5 +1,5 @@
-import { updateUI } from "../components/render";
-import { inputsUI } from "../constants/selectors";
+import { displayMovements, updateUI } from "../components/render";
+import { buttonsUI, inputsUI } from "../constants/selectors";
 import { handleTimer } from "./timer";
 import type { Account } from "../types";
 import { handleSuccess, handleTransferError, showToast } from "./notification";
@@ -93,3 +93,18 @@ export function handleLoanRequest() {
   }
   inputsUI.loanAmount.value = "";
 }
+
+// Sort transactions
+let sorted = false;
+buttonsUI.sort.addEventListener("click", function (e) {
+  e.preventDefault();
+  const currentAcc: Account | undefined = getCurrentAccount();
+  if (currentAcc) displayMovements(currentAcc, !sorted);
+  sorted = !sorted;
+
+  // Show notification when sorted
+  if (sorted) showToast("Movements sorted by amount", "info");
+
+  // Reset timer
+  handleTimer();
+});
