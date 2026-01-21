@@ -79,7 +79,8 @@ export function handleLogin(newAccount?: Account) {
   const username = newAccount
     ? newAccount.username
     : inputsUI.loginUsername.value.trim().toLowerCase();
-  const pin = newAccount ? newAccount.pin : Number(inputsUI.loginPin.value);
+  const pinInput = inputsUI.loginPin.value.trim();
+  const pin = newAccount ? newAccount.pin : Number(pinInput);
   const accountToLogin = accounts.find((acc) => acc.username === username);
 
   const timeOptions: Intl.DateTimeFormatOptions = {
@@ -89,6 +90,8 @@ export function handleLogin(newAccount?: Account) {
     month: "numeric",
     year: "numeric",
   };
+
+  if (!newAccount && (!username || !pinInput)) return;
 
   if (accountToLogin && accountToLogin.pin === pin) {
     setCurrentAccount(accountToLogin);
@@ -115,6 +118,7 @@ export function handleLogin(newAccount?: Account) {
       inputsUI.loginUsername.value = inputsUI.loginPin.value = "";
       inputsUI.loginPin.blur();
     }
+    return;
   } else {
     showToast("Wrong user initials or PIN", "error");
   }
