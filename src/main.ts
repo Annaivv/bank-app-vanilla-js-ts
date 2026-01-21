@@ -11,12 +11,13 @@ import {
   inputsUI,
   labelsUI,
 } from "./constants/selectors";
-import { handleSignupSubmit } from "./controllers/authController";
+import { handleLogin, handleSignupSubmit } from "./controllers/authController";
 import {
   handleSuccess,
   handleTransferError,
   showToast,
 } from "./services/notification";
+import { setCurrentAccount } from "./services/state";
 import { getAccountsData, setAccountsData } from "./services/storage";
 import type { Account } from "./types";
 
@@ -42,7 +43,7 @@ export const handleTimer = (): void => {
       clearInterval(logoutTimer);
       labelsUI.welcome.textContent = "Log in to get started";
       containersUI.app.classList.remove("app--visible");
-      currentAccount = undefined;
+      setCurrentAccount(undefined);
 
       showToast("Session expired. Please log in again.", "info");
     }
@@ -50,47 +51,7 @@ export const handleTimer = (): void => {
 };
 
 // Log in
-buttonsUI.login.addEventListener("click", function (e) {
-  e.preventDefault();
-  currentAccount = accounts.find(
-    (acc) => acc.username === inputsUI.loginUsername.value
-  );
-
-  // console.log(accounts);
-  console.log(currentAccount);
-
-  if (currentAccount?.pin === +inputsUI.loginPin.value) {
-    // Display UI and message
-    const firstName = currentAccount.owner.split(" ")[0];
-
-    labelsUI.welcome.textContent = `Welcome back, ${firstName}`;
-    handleSuccess("login", { name: firstName });
-    containersUI.app.classList.add("app--visible");
-
-    const timeOptions: Intl.DateTimeFormatOptions = {
-      hour: "numeric",
-      minute: "numeric",
-      day: "numeric",
-      month: "numeric",
-      year: "numeric",
-    };
-
-    labelsUI.date.textContent = new Intl.DateTimeFormat(
-      currentAccount.locale,
-      timeOptions
-    ).format(new Date());
-
-    // Clear input fields
-    inputsUI.loginUsername.value = inputsUI.loginPin.value = "";
-    inputsUI.loginPin.blur();
-
-    // Start logout timer
-    handleTimer();
-
-    // Update UI
-    updateUI(currentAccount);
-  }
-});
+buttonsUI.login.addEventListener("click", handleLogin);
 
 // Transfer money to other user
 buttonsUI.transfer.addEventListener("click", function (e) {

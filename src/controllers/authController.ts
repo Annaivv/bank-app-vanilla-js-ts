@@ -1,10 +1,26 @@
-import { closeSignupModal } from "../components/render";
-import { inputsUI } from "../constants/selectors";
-import { showToast } from "../services/notification";
+import { closeSignupModal, updateUI } from "../components/render";
+import {
+  buttonsUI,
+  containersUI,
+  inputsUI,
+  labelsUI,
+} from "../constants/selectors";
+import { handleTimer } from "../main";
+import { handleSuccess, showToast } from "../services/notification";
+import {
+  accounts,
+  getCurrentAccount,
+  setCurrentAccount,
+} from "../services/state";
 import { addUser } from "../services/userService";
+import type { Account } from "../types";
 
-export const handleSignupSubmit = (e: Event) => {
+let isSignup: boolean = false;
+
+export function handleSignupSubmit(e: Event) {
   e.preventDefault();
+  isSignup = true;
+
   if (
     !inputsUI.signupUsername ||
     !inputsUI.signupPin ||
@@ -35,11 +51,72 @@ export const handleSignupSubmit = (e: Event) => {
     return showToast("PIN should contain 4 digits", "error");
   }
 
-  addUser(fullName, +pin);
+  if (
+    accounts.some(
+      (account) => account.owner.toLowerCase() === fullName.toLowerCase()
+    )
+  )
+    return showToast(
+      "The user with this full name already exists, please provide another full name",
+      "error"
+    );
+
+  const curAcc: Account = addUser(fullName, +pin);
+  setCurrentAccount(curAcc);
+
   inputsUI.signupUsername.value =
     inputsUI.signupPin.value =
     inputsUI.signupConfirmPin.value =
       "";
 
   closeSignupModal();
-};
+  handleLogin(e);
+}
+
+// Login function
+export function handleLogin(e: Event) {
+  e.preventDefault();
+  // Get current account
+  const currentAccount: Account | undefined = isSignup
+    ? getCurrentAccount()
+    : accounts.find(
+        (account) =>
+          account.username === inputsUI.loginUsername.value.trim().toLowerCase()
+      );
+
+  if (!currentAccount) return showToast("User does not exist", "error");
+
+  if (!isSignup && currentAccount.pin !== +inputsUI.loginPin.value)
+    return showToast("Wrong PIN provided", "error");
+
+  // Display UI and message
+  const firstName = currentAccount.owner.split(" ")[0];
+  labelsUI.welcome.textContent = `Welcome back, ${firstName}`;
+  handleSuccess("login", { name: firstName });
+  containersUI.app.classList.add("visible");
+  if (buttonsUI.signupOpenForm) buttonsUI.signupOpenForm.style.display = "none";
+
+  const timeOptions: Intl.DateTimeFormatOptions = {
+    hour: "numeric",
+    minute: "numeric",
+    day: "numeric",
+    month: "numeric",
+    year: "numeric",
+  };
+
+  labelsUI.date.textContent = new Intl.DateTimeFormat(
+    currentAccount.locale,
+    timeOptions
+  ).format(new Date());
+
+  // Handle timer
+  handleTimer();
+  // Update UI
+  updateUI(currentAccount);
+
+  if (!isSignup) {
+    // Clear input fields
+    inputsUI.loginUsername.value = inputsUI.loginPin.value = "";
+    inputsUI.loginPin.blur();
+  }
+}
