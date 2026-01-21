@@ -1,5 +1,5 @@
 import type { Account } from "../types";
-import { accounts as defaultAccounts } from "../data/accounts";
+import { initialAccounts as defaultAccounts } from "../data/accounts";
 
 const STORAGE_KEY = "bank_accounts_data";
 

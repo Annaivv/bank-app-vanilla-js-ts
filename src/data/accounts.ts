@@ -60,4 +60,4 @@ const account3: Account = {
   locale: "en-GB",
 };
 
-export const accounts = [account1, account2, account3];
+export const initialAccounts = [account1, account2, account3];

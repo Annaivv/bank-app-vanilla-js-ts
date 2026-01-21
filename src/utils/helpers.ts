@@ -1,5 +1,5 @@
 import isoCountryCurrency from "iso-country-currency";
-import { accounts } from "../data/accounts";
+import { initialAccounts } from "../data/accounts";
 
 export const locale = navigator.language;
 
@@ -50,7 +50,7 @@ export const createUsername = (accountOwner: string): string => {
     .join("");
 };
 
-accounts.forEach(
+initialAccounts.forEach(
   (account) => (account.username = createUsername(account.owner))
 );
 

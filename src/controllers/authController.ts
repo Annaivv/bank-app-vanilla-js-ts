@@ -10,6 +10,7 @@ import { handleSuccess, showToast } from "../services/notification";
 import {
   accounts,
   getCurrentAccount,
+  refreshAccounts,
   setCurrentAccount,
 } from "../services/state";
 import { addUser } from "../services/userService";
@@ -61,8 +62,8 @@ export function handleSignupSubmit(e: Event) {
       "error"
     );
 
-  const curAcc: Account = addUser(fullName, +pin);
-  setCurrentAccount(curAcc);
+  const newUser = addUser(fullName, +pin);
+  refreshAccounts();
 
   inputsUI.signupUsername.value =
     inputsUI.signupPin.value =
@@ -70,31 +71,16 @@ export function handleSignupSubmit(e: Event) {
       "";
 
   closeSignupModal();
-  handleLogin(e);
+  handleLogin(newUser);
 }
 
 // Login function
-export function handleLogin(e: Event) {
-  e.preventDefault();
-  // Get current account
-  const currentAccount: Account | undefined = isSignup
-    ? getCurrentAccount()
-    : accounts.find(
-        (account) =>
-          account.username === inputsUI.loginUsername.value.trim().toLowerCase()
-      );
-
-  if (!currentAccount) return showToast("User does not exist", "error");
-
-  if (!isSignup && currentAccount.pin !== +inputsUI.loginPin.value)
-    return showToast("Wrong PIN provided", "error");
-
-  // Display UI and message
-  const firstName = currentAccount.owner.split(" ")[0];
-  labelsUI.welcome.textContent = `Welcome back, ${firstName}`;
-  handleSuccess("login", { name: firstName });
-  containersUI.app.classList.add("visible");
-  if (buttonsUI.signupOpenForm) buttonsUI.signupOpenForm.style.display = "none";
+export function handleLogin(newAccount?: Account) {
+  const username = newAccount
+    ? newAccount.username
+    : inputsUI.loginUsername.value.trim().toLowerCase();
+  const pin = newAccount ? newAccount.pin : Number(inputsUI.loginPin.value);
+  const accountToLogin = accounts.find((acc) => acc.username === username);
 
   const timeOptions: Intl.DateTimeFormatOptions = {
     hour: "numeric",
@@ -104,19 +90,32 @@ export function handleLogin(e: Event) {
     year: "numeric",
   };
 
-  labelsUI.date.textContent = new Intl.DateTimeFormat(
-    currentAccount.locale,
-    timeOptions
-  ).format(new Date());
+  if (accountToLogin && accountToLogin.pin === pin) {
+    setCurrentAccount(accountToLogin);
 
-  // Handle timer
-  handleTimer();
-  // Update UI
-  updateUI(currentAccount);
+    // Display UI and message
+    const firstName = accountToLogin.owner.split(" ")[0];
+    labelsUI.welcome.textContent = `Welcome back, ${firstName}`;
+    handleSuccess("login", { name: firstName });
+    containersUI.app.classList.add("visible");
+    if (buttonsUI.signupOpenForm)
+      buttonsUI.signupOpenForm.style.display = "none";
+    labelsUI.date.textContent = new Intl.DateTimeFormat(
+      accountToLogin.locale,
+      timeOptions
+    ).format(new Date());
 
-  if (!isSignup) {
-    // Clear input fields
-    inputsUI.loginUsername.value = inputsUI.loginPin.value = "";
-    inputsUI.loginPin.blur();
+    // Handle timer
+    handleTimer();
+    // Update UI
+    updateUI(accountToLogin);
+
+    if (!isSignup) {
+      // Clear input fields
+      inputsUI.loginUsername.value = inputsUI.loginPin.value = "";
+      inputsUI.loginPin.blur();
+    }
+  } else {
+    showToast("Wrong user initials or PIN", "error");
   }
 }
