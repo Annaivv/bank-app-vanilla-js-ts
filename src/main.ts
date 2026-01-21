@@ -19,6 +19,7 @@ import {
 } from "./services/notification";
 import { setCurrentAccount } from "./services/state";
 import { getAccountsData, setAccountsData } from "./services/storage";
+import { handleTransfer } from "./services/transactionService";
 import type { Account } from "./types";
 
 let currentAccount: Account | undefined;
@@ -51,57 +52,15 @@ export const handleTimer = (): void => {
 };
 
 // Log in
-buttonsUI.login.addEventListener("click", handleLogin);
+buttonsUI.login.addEventListener("click", function (e) {
+  e.preventDefault();
+  handleLogin();
+});
 
 // Transfer money to other user
 buttonsUI.transfer.addEventListener("click", function (e) {
   e.preventDefault();
-  const amount = +inputsUI.transferAmount.value;
-  const receiverAcc = accounts.find(
-    (acc) => acc.username === inputsUI.transferTo.value
-  );
-
-  inputsUI.transferAmount.value = inputsUI.transferTo.value = "";
-
-  if (!currentAccount) return;
-  if (
-    !receiverAcc ||
-    amount < 0 ||
-    (currentAccount.balance ?? 0) <= amount ||
-    receiverAcc.username === currentAccount.username
-  ) {
-    handleTransferError({
-      totalSum: currentAccount.balance,
-      userTo: receiverAcc?.username,
-      currentUser: currentAccount.username,
-      transferAmount: amount,
-    });
-    return;
-  }
-
-  // Completing transfer
-  currentAccount.movements.push(-amount);
-  receiverAcc.movements.push(amount);
-
-  // Add transfer date
-  currentAccount.movementsDates.push(new Date().toISOString());
-  receiverAcc.movementsDates.push(new Date().toISOString());
-
-  // Update UI
-  updateUI(currentAccount);
-
-  // Show toast
-  handleSuccess("transfer", {
-    name: receiverAcc?.owner,
-    amount,
-    currency: currentAccount.currency,
-  });
-
-  // Save data to storage
-  setAccountsData(accounts);
-
-  // Reset timer
-  handleTimer();
+  handleTransfer();
 });
 
 // Request a loan
