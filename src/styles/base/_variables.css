@@ -1,0 +1,25 @@
+/* Breakpoints:
+  Phone:   < 600px
+  Tablet:  768px (min-width)
+  Desktop: 1024px (min-width)
+*/
+
+:root {
+  --rgb-white: 255, 255, 255;
+
+  --rgb-text-primary: 68, 68, 68;
+  --rgb-btn-text: 245, 245, 245;
+
+  --rgb-bg-primary: 243, 243, 243;
+  --rgb-bg-green: 94, 197, 118;
+
+  --rgb-btn-hover: 119, 119, 119;
+  --rgb-input-focus: 204, 204, 204;
+  --rgb-input-placeholder: 187, 187, 187;
+
+  --gradient-primary: linear-gradient(
+    to top left,
+    rgb(57, 179, 133),
+    rgb(155, 225, 93)
+  );
+}

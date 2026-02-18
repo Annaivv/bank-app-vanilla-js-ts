@@ -28,3 +28,4 @@ I have significantly upgraded the codebase by:
 - **External Library Integration (iso-country-currency)**: Leveraged a specialized 3rd party library to bridge the gap between browser-detected regions and financial standards. This allows for:
   - **Standardized Mapping**: Accurately mapping ISO country codes (e.g., "UA") to official currency codes ("UAH").
   - **Scalability**: Avoiding brittle, hardcoded maps by using a community-maintained database for international currency standards.
+  - **Mobile-First Modular CSS**: Refactored monolithic styles into a responsive, component-based architecture using a mobile-first approach, semantic design tokens, and RGB tuples for dynamic transparency management.
