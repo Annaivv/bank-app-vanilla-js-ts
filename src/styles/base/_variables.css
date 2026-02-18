@@ -17,9 +17,20 @@
   --rgb-input-focus: 204, 204, 204;
   --rgb-input-placeholder: 187, 187, 187;
 
+  --rgb-balance-date: 136, 136, 136;
+
+  --rgb-mov-text: 238, 238, 238;
+  --rgb-mov-date: 102, 102, 102;
+
   --gradient-primary: linear-gradient(
     to top left,
     rgb(57, 179, 133),
     rgb(155, 225, 93)
+  );
+
+  --gradient-red: linear-gradient(
+    to top left,
+    rgb(229, 42, 90),
+    rgb(255, 88, 95)
   );
 }
