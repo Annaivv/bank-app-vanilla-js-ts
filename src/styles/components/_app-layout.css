@@ -44,6 +44,17 @@
   font-weight: 400;
 }
 
+.logout-timer {
+  padding: 0 0.3rem;
+  margin-top: 1.9rem;
+  text-align: right;
+  font-size: 1.25rem;
+}
+
+.timer {
+  font-weight: 600;
+}
+
 @media (min-width: 768px) {
   .app {
     padding-right: 2rem;
