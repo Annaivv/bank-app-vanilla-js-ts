@@ -22,6 +22,9 @@
   --rgb-mov-text: 238, 238, 238;
   --rgb-mov-date: 102, 102, 102;
 
+  --rgb-summary-green: 102, 200, 115;
+  --rgb-summary-red: 245, 70, 93;
+
   --gradient-primary: linear-gradient(
     to top left,
     rgb(57, 179, 133),
