@@ -20,11 +20,11 @@
 
 .summary__value--in,
 .summary__value--interest {
-  color: rgb(var(--rgb-summary-green));
+  color: rgb(var(--rgb-green));
 }
 
 .summary__value--out {
-  color: rgb(var(--rgb-summary-red));
+  color: rgb(var(--rgb-red));
 }
 
 .btn--sort {

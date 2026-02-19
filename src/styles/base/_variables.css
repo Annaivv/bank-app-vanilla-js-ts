@@ -7,6 +7,10 @@
 :root {
   --rgb-white: 255, 255, 255;
   --rgb-black: 0, 0, 0;
+  --rgb-green: 102, 200, 115;
+  --rgb-red: 245, 70, 93;
+  --rgb-yellow: 255, 152, 0;
+  --rgb-blue: 79, 79, 237;
 
   --rgb-text-primary: 68, 68, 68;
   --rgb-btn-text: 245, 245, 245;
@@ -23,9 +27,6 @@
 
   --rgb-mov-text: 238, 238, 238;
   --rgb-mov-date: 102, 102, 102;
-
-  --rgb-summary-green: 102, 200, 115;
-  --rgb-summary-red: 245, 70, 93;
 
   --gradient-primary: linear-gradient(
     to top left,
