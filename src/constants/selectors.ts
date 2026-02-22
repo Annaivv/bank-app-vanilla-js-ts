@@ -5,7 +5,7 @@ export const labelsUI = {
   sumIn: document.querySelector<HTMLParagraphElement>(".summary__value--in")!,
   sumOut: document.querySelector<HTMLParagraphElement>(".summary__value--out")!,
   sumInterest: document.querySelector<HTMLParagraphElement>(
-    ".summary__value--interest"
+    ".summary__value--interest",
   )!,
   timer: document.querySelector<HTMLSpanElement>(".timer")!,
 };
@@ -26,29 +26,31 @@ export const buttonsUI = {
   signupOpenForm:
     document.querySelector<HTMLButtonElement>(".signup__openForm"),
   signupSubmitForm: document.querySelector<HTMLButtonElement>(
-    ".signup__submitForm"
+    ".signup__submitForm",
   ),
 };
 
 export const inputsUI = {
   loginUsername: document.querySelector<HTMLInputElement>(
-    ".login__input--user"
+    ".login__input--user",
   )!,
   loginPin: document.querySelector<HTMLInputElement>(".login__input--pin")!,
   transferTo: document.querySelector<HTMLInputElement>(".form__input--to")!,
   transferAmount: document.querySelector<HTMLInputElement>(
-    ".form__input--amount"
+    ".form__input--amount",
   )!,
   loanAmount: document.querySelector<HTMLInputElement>(
-    ".form__input--loan-amount"
+    ".form__input--loan-amount",
   )!,
   closeUsername:
     document.querySelector<HTMLInputElement>(".form__input--user")!,
   closePin: document.querySelector<HTMLInputElement>(".form__input--pin")!,
   signupFirstInput: document.querySelector<HTMLInputElement>(
-    ".signup__firstInput"
+    ".signup__firstInput",
   ),
   signupUsername: document.querySelector<HTMLInputElement>("#username"),
   signupPin: document.querySelector<HTMLInputElement>("#pin"),
   signupConfirmPin: document.querySelector<HTMLInputElement>("#confirmPin"),
 };
+
+export const userSelect = document.getElementById("user-select")!;

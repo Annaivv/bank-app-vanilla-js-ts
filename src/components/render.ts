@@ -1,5 +1,11 @@
-import { containersUI, inputsUI, labelsUI } from "../constants/selectors";
+import {
+  containersUI,
+  inputsUI,
+  labelsUI,
+  userSelect,
+} from "../constants/selectors";
 import { showToast } from "../services/notification";
+import { accounts, getCurrentAccount } from "../services/state";
 import type { Account } from "../types";
 import { calcDaysPassed, formatCurrency, formatTime } from "../utils/helpers";
 
@@ -25,8 +31,8 @@ export const displayMovements = function (acc: Account, sort = false): void {
     const html = `
       <div class="movements__row">
         <div class="movements__type movements__type--${type}">${
-      i + 1
-    } ${type}</div>
+          i + 1
+        } ${type}</div>
         <div class="movements__date">${daysPassed}</div>
         <div class="movements__value">${movValue}</div>
       </div>
@@ -41,7 +47,7 @@ const calcDisplayBalance = function (acc: Account): void {
   labelsUI.balance.textContent = formatCurrency(
     acc.balance,
     acc.locale,
-    acc.currency
+    acc.currency,
   );
 };
 
@@ -52,7 +58,7 @@ const calcDisplaySummary = function (acc: Account): void {
   labelsUI.sumIn.textContent = formatCurrency(
     incomes,
     acc.locale,
-    acc.currency
+    acc.currency,
   );
 
   const out = acc.movements
@@ -61,7 +67,7 @@ const calcDisplaySummary = function (acc: Account): void {
   labelsUI.sumOut.textContent = formatCurrency(
     Math.abs(out),
     acc.locale,
-    acc.currency
+    acc.currency,
   );
 
   const interest = acc.movements
@@ -74,7 +80,7 @@ const calcDisplaySummary = function (acc: Account): void {
   labelsUI.sumInterest.textContent = formatCurrency(
     interest,
     acc.locale,
-    acc.currency
+    acc.currency,
   );
 };
 
@@ -100,6 +106,21 @@ export const closeSignupModal = () => {
   containersUI.overlay?.classList.add("hidden");
 };
 
+export const displayReceivers = () => {
+  userSelect.innerHTML = "";
+  const currentAccount = getCurrentAccount();
+
+  if (!currentAccount) return;
+  const usernames = accounts
+    .filter((acc) => acc.username !== currentAccount.username)
+    .map((acc) => acc.username);
+
+  usernames.forEach((username) => {
+    const html = `<option value=${username}>${username}</option>`;
+    userSelect.insertAdjacentHTML("afterbegin", html);
+  });
+};
+
 export const updateUI = function (acc: Account): void {
   // Display movements
   displayMovements(acc);
@@ -109,4 +130,6 @@ export const updateUI = function (acc: Account): void {
 
   // Display summary
   calcDisplaySummary(acc);
+
+  displayReceivers();
 };
