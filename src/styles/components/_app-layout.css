@@ -36,7 +36,7 @@
 
 .balance__date {
   font-size: 1.4rem;
-  color: rgb(var(--rgb-balance-date));
+  color: rgb(var(--rgb-text-primary));
 }
 
 .balance__value {

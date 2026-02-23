@@ -25,7 +25,7 @@
 
   --rgb-balance-date: 136, 136, 136;
 
-  --rgb-mov-text: 238, 238, 238;
+  --rgb-mov-text: 124, 119, 119;
   --rgb-mov-date: 102, 102, 102;
 
   --gradient-primary: linear-gradient(
@@ -45,4 +45,27 @@
     rgb(255, 176, 3),
     rgb(255, 203, 3)
   );
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --rgb-white: 210, 201, 201;
+    --rgb-green: 80, 180, 95;
+    --rgb-red: 230, 60, 80;
+    --rgb-yellow: 255, 170, 40;
+
+    --rgb-text-primary: 220, 220, 220;
+    --rgb-btn-text: 30, 30, 30;
+    --rgb-ops-text: 113, 105, 105;
+
+    --rgb-bg-primary: 109, 107, 107;
+    --rgb-bg-secondary: 45, 45, 45;
+    --rgb-bg-green: 40, 120, 60;
+
+    --rgb-btn-hover: 180, 180, 180;
+    --rgb-input-focus: 100, 100, 100;
+    --rgb-input-placeholder: 120, 120, 120;
+
+    --rgb-balance-date: 170, 170, 170;
+  }
 }

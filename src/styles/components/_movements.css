@@ -2,6 +2,7 @@
   background-color: rgb(var(--rgb-white));
   border-radius: 1rem;
   overflow: scroll;
+  color: rgb(var(--rgb-mov-text));
 }
 
 .movements__row {
@@ -25,7 +26,6 @@
   font-size: 1.1rem;
   text-transform: uppercase;
   font-weight: 500;
-  color: rgb(var(--rgb-mov-date));
 }
 
 .movements__type--deposit {
