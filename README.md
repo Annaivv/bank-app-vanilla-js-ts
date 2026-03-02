@@ -13,6 +13,7 @@ This project is a vanilla JavaScript + TypeScript banking application that simul
 - **Loan Management**: A dedicated system to request loans, which are instantly processed and reflected in the account movements.
 - **Automated Financial Summaries**: Provides real-time calculations of total incomes, expenses, and interest accrued.
 - **Smart Notifications**: A centralized feedback system providing clear toasts for errors, warnings, successful actions, and general information.
+- **Day and night theme**: Different colors set depending on the theme of the user device.
 
 ## 🛠 Technical Improvements
 
